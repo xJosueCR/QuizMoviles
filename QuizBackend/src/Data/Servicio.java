@@ -23,9 +23,9 @@ public class Servicio {
     {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             try{
-            conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","lab01_DBA","lab01_DBA_DB");
+            conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","practicaClase","practicaClase");
             }catch(SQLException e){
-                conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","lab01_DBA","lab01_DBA_DB");
+                conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","practicaClase","practicaClase");
             }
         
     }
