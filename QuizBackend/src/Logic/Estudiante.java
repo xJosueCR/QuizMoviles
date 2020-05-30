@@ -17,7 +17,7 @@ public class Estudiante {
     private String nombre;
     private String apellidos;
     private int edad;
-    private int cedula;
+    private String cedula;
     private List<Curso> cursos;
     
     public Estudiante(){
@@ -27,8 +27,9 @@ public class Estudiante {
         this.edad = 0;
         this.cursos = new ArrayList<>();
     }
-    public Estudiante(int id, String nombre, String apellidos, int edad, List<Curso> cursos) {
+    public Estudiante(int id, String nombre,String cedula, String apellidos, int edad, List<Curso> cursos) {
         this.id = id;
+        this.cedula = cedula;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.edad = edad;
@@ -47,11 +48,11 @@ public class Estudiante {
         return nombre;
     }
 
-    public int getCedula() {
+    public String getCedula() {
         return cedula;
     }
 
-    public void setCedula(int cedula) {
+    public void setCedula(String cedula) {
         this.cedula = cedula;
     }
 
