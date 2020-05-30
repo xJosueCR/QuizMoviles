@@ -13,7 +13,7 @@ conn practicaClase/practicaClase
 drop table estudiante;
 create table estudiante(
 id number (3) ,
-cedula number (10) not null,
+cedula varchar2(10) not null,
 nombre   varchar2(50) not null,
 apellidos   varchar2(50) not null,
 edad  number(3)  not null
@@ -173,6 +173,13 @@ begin
     END LOOP;
 end;
 /
+
+create or replace procedure PA_eliminarEstudiante(id in estudiante.id%type)
+as
+begin
+	delete from estudiante where estudiante.id = id;
+end;
+/
 insert into curso (descripcion,nombre,creditos) values ('123','c1',3);
 insert into curso (descripcion,nombre,creditos) values ('123','c2',3);
 insert into curso (descripcion,nombre,creditos) values ('123','c3',3);
@@ -181,14 +188,7 @@ insert into curso (descripcion,nombre,creditos) values ('123','c4',3);
 insert into estudiante(cedula, nombre, apellidos, edad) values(111,'test','test',15);
 select * from curso;
 
-declare
-    myarray p.arrCursos;
-  begin
-    myarray(1) := 1;
-	myarray(2) := 2;
-    PA_insertarEstudiante(1111,'prueba1','apellidos',18, myarray);
-  end;
-  /
+
 select * from estudiante;
 select * from cursosEstudiante;
 select PA_cursosDeEst(1) cursosDeEst from dual;

@@ -50,12 +50,12 @@ public class ServicioEstudiante extends Servicio {
 
         try {
             pstmt = conexion.prepareCall(INSERTAR_ESTUDIANTE);
-            pstmt.setInt(1, estudiante.getCedula());
+            pstmt.setString(1, estudiante.getCedula());
             pstmt.setString(2, estudiante.getNombre());
             pstmt.setString(3, estudiante.getApellidos());
             pstmt.setInt(4, estudiante.getEdad());
             int array[] = {1,2,3};
-            ArrayDescriptor des = ArrayDescriptor.createDescriptor("practicaClase.ARRAY_TABLE", conexion);
+            ArrayDescriptor des = ArrayDescriptor.createDescriptor("PRACTICACLASE.ARRAY_TABLE", conexion);
             ARRAY array_to_pass = new ARRAY(des,conexion,array);
             pstmt.setArray(5, array_to_pass);
             boolean resultado = pstmt.execute();
@@ -96,7 +96,7 @@ public class ServicioEstudiante extends Servicio {
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
                 estudiante = new Estudiante(rs.getInt("id"),
-                rs.getInt("cedula"), rs.getString("nombre"),
+                rs.getString("cedula"), rs.getString("nombre"),
                 rs.getString("apellidos"),
                 rs.getInt("edad"), null);
                 estudiantes.add(estudiante);
@@ -168,7 +168,7 @@ public class ServicioEstudiante extends Servicio {
         try {
             pstmt = conexion.prepareStatement(MODIFICAR_ESTUDIANTE);
             pstmt.setInt(1, estudiante.getId());
-            pstmt.setInt(2, estudiante.getCedula());
+            pstmt.setString(2, estudiante.getCedula());
             pstmt.setString(3, estudiante.getNombre());
             pstmt.setString(4, estudiante.getApellidos());
             pstmt.setInt(5, estudiante.getEdad());

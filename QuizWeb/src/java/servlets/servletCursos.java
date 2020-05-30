@@ -22,48 +22,27 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Josue
  */
-@WebServlet(name = "servletCursos", urlPatterns = {"/servletCursos"})
+//@WebServlet(name = "servletCursos", urlPatterns = {"/servletCursos"})
 public class servletCursos extends HttpServlet {
 
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet servletCursos</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet servletCursos at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // processRequest(request, response);
-            System.out.println("getCursos");
+
             Model dm1 = Model.instance();
             Control dm = new Control(dm1);
-            List<Curso> asd =dm.listarCursos();
-            String json = new Gson().toJson(asd);
+            List<Curso> list = dm.listarCursos();
+            String json = new Gson().toJson(dm.listarCursos());
             response.setContentType("aplication/json");
             response.setCharacterEncoding("UTF-8");
-            System.out.println(json);
             response.getWriter().println(json);
         
     }
@@ -79,7 +58,7 @@ public class servletCursos extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /**

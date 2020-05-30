@@ -35,6 +35,7 @@ public class ServicioCurso extends Servicio {
         try {
             conectar();
         } catch (ClassNotFoundException ex) {
+            ex.printStackTrace(); 
             throw new GlobalException("No se ha localizado el Driver");
         } catch (SQLException e) {
             throw new NoDataException("La base de datos no se encuentra disponible");
