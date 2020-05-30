@@ -55,7 +55,7 @@ public class ServicioEstudiante extends Servicio {
             pstmt.setString(3, estudiante.getApellidos());
             pstmt.setInt(4, estudiante.getEdad());
             int array[] = {1,2,3};
-            ArrayDescriptor des = ArrayDescriptor.createDescriptor("practicaClase.ARRAY_TABLE", conexion);
+            ArrayDescriptor des = ArrayDescriptor.createDescriptor("PRACTICACLASE.ARRAY_TABLE", conexion);
             ARRAY array_to_pass = new ARRAY(des,conexion,array);
             pstmt.setArray(5, array_to_pass);
             boolean resultado = pstmt.execute();
