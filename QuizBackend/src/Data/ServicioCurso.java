@@ -20,7 +20,7 @@ import oracle.jdbc.internal.OracleTypes;
  */
 public class ServicioCurso extends Servicio {
 
-    private static final String LISTAR_CURSOS= "{?=call PA_listarProfesores()}";
+    private static final String LISTAR_CURSOS= "{?=call PA_cursosList()}";
     private static ServicioCurso uniqueInstance;
     public static ServicioCurso instance() {
         if (uniqueInstance == null) {
@@ -31,7 +31,7 @@ public class ServicioCurso extends Servicio {
 
     public ServicioCurso() {
     }
-    public List<Curso> listarEstudiantes() throws GlobalException, NoDataException { // No vincula aun el arreglo de cursos correctamente
+    public List<Curso> listarCursos() throws GlobalException, NoDataException { // No vincula aun el arreglo de cursos correctamente
         try {
             conectar();
         } catch (ClassNotFoundException ex) {

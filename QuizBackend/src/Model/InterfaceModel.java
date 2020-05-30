@@ -5,6 +5,7 @@
  */
 package Model;
 
+import Logic.Curso;
 import Logic.Estudiante;
 import java.util.List;
 
@@ -17,11 +18,12 @@ public interface InterfaceModel {
 
     public void insertarEstudiante(Estudiante estudiante) throws Exception;
 
-    public Estudiante buscarEstudiante(int id) throws Exception;
-
     public List<Estudiante> listarEstudiantes() throws Exception;
 
     public void eliminarProfesor(int id) throws Exception;
 
     public void modificarEstudiante(Estudiante estudiante) throws Exception;
+    
+      //-------------------Cursos-------------------------- 
+    public List<Curso> listarCursos() throws Exception;
 }

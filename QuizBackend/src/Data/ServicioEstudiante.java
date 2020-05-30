@@ -18,10 +18,9 @@ import oracle.jdbc.internal.OracleTypes;
  *
  * @author Josue
  */
- public class ServicioEstudiante extends Servicio {
+public class ServicioEstudiante extends Servicio {
 
-    private static final String INSERTAR_ESTUDIANTE = "{call PA_insertarProfesor(?,?,?,?)}";
-    private static final String BUSCAR_ESTUDIANTE = "{?=call PA_buscarProfesor(?)}";
+    private static final String INSERTAR_ESTUDIANTE = "{call PA_insertarEstudiante(?,?,?,?)}";
     private static final String LISTAR_ESTUDIANTE = "{?=call PA_listarProfesores()}";
     private static final String ELIMINAR_ESTUDIANTE = "{call PA_eliminarProfesor(?)}";
     private static final String MODIFICAR_ESTUDIANTE = "{call PA_modificarProfesor(?,?,?,?,?)}";
@@ -70,6 +69,7 @@ import oracle.jdbc.internal.OracleTypes;
             }
         }
     }
+
     public List<Estudiante> listarEstudiantes() throws GlobalException, NoDataException { // No vincula aun el arreglo de cursos correctamente
         try {
             conectar();
@@ -113,7 +113,8 @@ import oracle.jdbc.internal.OracleTypes;
         }
         return estudiantes;
     }
-     public void eliminarEstudiante(int id) throws GlobalException, NoDataException {
+
+    public void eliminarEstudiante(int id) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -146,5 +147,44 @@ import oracle.jdbc.internal.OracleTypes;
             }
         }
     }
+    public void modificarEstudiante(Estudiante estudiante) throws GlobalException, NoDataException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareStatement(MODIFICAR_ESTUDIANTE);
+            pstmt.setInt(1, estudiante.getId());
+            pstmt.setInt(2, estudiante.getCedula());
+            pstmt.setString(3, estudiante.getNombre());
+            pstmt.setString(4, estudiante.getApellidos());
+            pstmt.setInt(5, estudiante.getEdad());
+            int resultado = pstmt.executeUpdate();
 
+            //si es diferente de 0 es porq si afecto un registro o mas
+            if (resultado != 1) {
+                throw new NoDataException("No se realizo la actualización");
+            } else {
+                System.out.println("\nModificación Satisfactoria!");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+    }
 }
+
+
