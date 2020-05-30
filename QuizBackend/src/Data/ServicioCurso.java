@@ -50,7 +50,7 @@ public class ServicioCurso extends Servicio {
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
-                curso = new Curso();
+                curso = new Curso(rs.getInt("id"), rs.getString("nombre"), rs.getInt("creditos"));
                 cursos.add(curso);
             }
         } catch (SQLException e) {
