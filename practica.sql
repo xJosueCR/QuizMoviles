@@ -127,22 +127,8 @@ CREATE OR REPLACE PACKAGE p IS
     
   END p;
   /
-create or replace procedure PA_insertarEstudiante(new_cedula in estudiante.cedula%type,
-												new_nombre in estudiante.nombre%type,
-												new_apellidos in estudiante.apellidos%type,
-												new_edad in estudiante.edad%type,
-												t_in p.arrCursos
-												)
-as
-idInserted number(3);
-begin 
-	insert into  estudiante(cedula, nombre,apellidos, edad) values(new_cedula, new_nombre,new_apellidos, new_edad) returning id into idInserted;
-	FOR i IN 1..t_in.count LOOP
-		insert into cursosEstudiante(id_estudiante,id_curso) values (idInserted,t_in(i));
-		
-    END LOOP;
-end;
-/
+
+
 
 create or replace procedure PA_eliminarCursosDeEst( est in estudiante.id%type) as 
 begin 
@@ -157,12 +143,42 @@ begin
 end;
 /
 PROMPT ===============================================================================================================================
+create or replace function PA_listarEstudiantes
+return Types.ref_cursor
+as 
+	estudiante_cursor types.ref_cursor;
+begin
+	open estudiante_cursor for 
+		select * from estudiante;
+return estudiante_cursor;
+end;
+/
 
 
+CREATE TYPE array_table AS TABLE OF NUMBER;
+/
+create or replace procedure PA_insertarEstudiante(new_cedula in estudiante.cedula%type,
+												new_nombre in estudiante.nombre%type,
+												new_apellidos in estudiante.apellidos%type,
+												new_edad in estudiante.edad%type,
+												t_in in array_table
+												)
+as
+idInserted number(3);
+begin 
+	insert into  estudiante(cedula, nombre,apellidos, edad) values(new_cedula, new_nombre,new_apellidos, new_edad) returning id into idInserted;
+	FOR i IN 1..t_in.count LOOP
+		insert into cursosEstudiante(id_estudiante,id_curso) values (idInserted,t_in(i));
+		
+    END LOOP;
+end;
+/
 insert into curso (descripcion,nombre,creditos) values ('123','c1',3);
 insert into curso (descripcion,nombre,creditos) values ('123','c2',3);
 insert into curso (descripcion,nombre,creditos) values ('123','c3',3);
 insert into curso (descripcion,nombre,creditos) values ('123','c4',3);
+
+insert into estudiante(cedula, nombre, apellidos, edad) values(111,'test','test',15);
 select * from curso;
 
 declare

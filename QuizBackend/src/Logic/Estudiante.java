@@ -27,7 +27,7 @@ public class Estudiante {
         this.edad = 0;
         this.cursos = new ArrayList<>();
     }
-    public Estudiante(int id, String nombre,String cedula, String apellidos, int edad, List<Curso> cursos) {
+    public Estudiante(int id,  int cedula, String nombre, String apellidos, int edad, List<Curso> cursos) {
         this.id = id;
         this.cedula = cedula;
         this.nombre = nombre;

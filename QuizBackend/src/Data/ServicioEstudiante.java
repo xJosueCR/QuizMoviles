@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import oracle.jdbc.internal.OracleTypes;
+import oracle.sql.ARRAY;
+import oracle.sql.ArrayDescriptor;
 
 /**
  *
@@ -20,8 +22,8 @@ import oracle.jdbc.internal.OracleTypes;
  */
 public class ServicioEstudiante extends Servicio {
 
-    private static final String INSERTAR_ESTUDIANTE = "{call PA_insertarEstudiante(?,?,?,?)}";
-    private static final String LISTAR_ESTUDIANTE = "{?=call PA_listarProfesores()}";
+    private static final String INSERTAR_ESTUDIANTE = "{call PA_insertarEstudiante(?,?,?,?,?)}";
+    private static final String LISTAR_ESTUDIANTES = "{?=call PA_listarEstudiantes()}";
     private static final String ELIMINAR_ESTUDIANTE = "{call PA_eliminarProfesor(?)}";
     private static final String MODIFICAR_ESTUDIANTE = "{call PA_modificarProfesor(?,?,?,?,?)}";
     private static ServicioEstudiante uniqueInstance;
@@ -48,10 +50,14 @@ public class ServicioEstudiante extends Servicio {
 
         try {
             pstmt = conexion.prepareCall(INSERTAR_ESTUDIANTE);
-            pstmt.setString(1, estudiante.getCedula());
+            pstmt.setInt(1, estudiante.getCedula());
             pstmt.setString(2, estudiante.getNombre());
             pstmt.setString(3, estudiante.getApellidos());
             pstmt.setInt(4, estudiante.getEdad());
+            int array[] = {1,2,3};
+            ArrayDescriptor des = ArrayDescriptor.createDescriptor("PRACTICACLASE.ARRAY_TABLE", conexion);
+            ARRAY array_to_pass = new ARRAY(des,conexion,array);
+            pstmt.setArray(5, array_to_pass);
             boolean resultado = pstmt.execute();
             if (resultado == true) {
                 throw new NoDataException("No se realizo la insercion");
@@ -84,13 +90,13 @@ public class ServicioEstudiante extends Servicio {
         Estudiante estudiante = null;
         CallableStatement pstmt = null;
         try {
-            pstmt = conexion.prepareCall(LISTAR_ESTUDIANTE);
+            pstmt = conexion.prepareCall(LISTAR_ESTUDIANTES);
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
                 estudiante = new Estudiante(rs.getInt("id"),
-                rs.getString("cedula"), rs.getString("nombre"),
+                rs.getInt("cedula"), rs.getString("nombre"),
                 rs.getString("apellidos"),
                 rs.getInt("edad"), null);
                 estudiantes.add(estudiante);
@@ -162,7 +168,7 @@ public class ServicioEstudiante extends Servicio {
         try {
             pstmt = conexion.prepareStatement(MODIFICAR_ESTUDIANTE);
             pstmt.setInt(1, estudiante.getId());
-            pstmt.setString(2, estudiante.getCedula());
+            pstmt.setInt(2, estudiante.getCedula());
             pstmt.setString(3, estudiante.getNombre());
             pstmt.setString(4, estudiante.getApellidos());
             pstmt.setInt(5, estudiante.getEdad());
