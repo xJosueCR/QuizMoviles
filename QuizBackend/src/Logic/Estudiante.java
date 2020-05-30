@@ -17,7 +17,7 @@ public class Estudiante {
     private String nombre;
     private String apellidos;
     private int edad;
-    private String cedula;
+    private int cedula;
     private List<Curso> cursos;
     
     public Estudiante(){
@@ -48,11 +48,11 @@ public class Estudiante {
         return nombre;
     }
 
-    public String getCedula() {
+    public int getCedula() {
         return cedula;
     }
 
-    public void setCedula(String cedula) {
+    public void setCedula(int cedula) {
         this.cedula = cedula;
     }
 
