@@ -159,7 +159,7 @@ public class ServicioEstudiante extends Servicio {
         try {
             pstmt = conexion.prepareStatement(MODIFICAR_ESTUDIANTE);
             pstmt.setInt(1, estudiante.getId());
-            pstmt.setInt(2, estudiante.getCedula());
+            pstmt.getString(2, estudiante.getCedula());
             pstmt.setString(3, estudiante.getNombre());
             pstmt.setString(4, estudiante.getApellidos());
             pstmt.setInt(5, estudiante.getEdad());
