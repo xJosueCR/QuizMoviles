@@ -5,6 +5,9 @@
  */
 package servlets;
 
+import Controllers.Control;
+import Model.Model;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -59,6 +62,16 @@ public class servletCursos extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+            System.out.println("getCursos");
+            Model dm1 = Model.instance();
+            Control dm = new Control(dm1);
+            
+            String json = new Gson().toJson(dm.listarCursos());
+            response.setContentType("aplication/json");
+            response.setCharacterEncoding("UTF-8");
+            System.out.println(json);
+            response.getWriter().println(json);
+        
     }
 
     /**
