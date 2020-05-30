@@ -48,7 +48,7 @@ public class ServicioEstudiante extends Servicio {
 
         try {
             pstmt = conexion.prepareCall(INSERTAR_ESTUDIANTE);
-            pstmt.setInt(1, estudiante.getCedula());
+            pstmt.setString(1, estudiante.getCedula());
             pstmt.setString(2, estudiante.getNombre());
             pstmt.setString(3, estudiante.getApellidos());
             pstmt.setInt(4, estudiante.getEdad());
@@ -89,7 +89,10 @@ public class ServicioEstudiante extends Servicio {
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
-                estudiante = new Estudiante();
+                estudiante = new Estudiante(rs.getInt("id"),
+                rs.getString("cedula"), rs.getString("nombre"),
+                rs.getString("apellidos"),
+                rs.getInt("edad"), null);
                 estudiantes.add(estudiante);
             }
         } catch (SQLException e) {
@@ -159,13 +162,12 @@ public class ServicioEstudiante extends Servicio {
         try {
             pstmt = conexion.prepareStatement(MODIFICAR_ESTUDIANTE);
             pstmt.setInt(1, estudiante.getId());
-            pstmt.getString(2, estudiante.getCedula());
+            pstmt.setString(2, estudiante.getCedula());
             pstmt.setString(3, estudiante.getNombre());
             pstmt.setString(4, estudiante.getApellidos());
             pstmt.setInt(5, estudiante.getEdad());
             int resultado = pstmt.executeUpdate();
 
-            //si es diferente de 0 es porq si afecto un registro o mas
             if (resultado != 1) {
                 throw new NoDataException("No se realizo la actualización");
             } else {
