@@ -61,7 +61,7 @@ public class servletCursos extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
             System.out.println("getCursos");
             Model dm1 = Model.instance();
             Control dm = new Control(dm1);
