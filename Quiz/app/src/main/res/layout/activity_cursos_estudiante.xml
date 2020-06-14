@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinator_layout_curso_estudiante"
+    tools:context=".Activity.CursosEstudianteActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include layout="@layout/content_cursos_estudiante" />
+
+    <ImageButton
+        android:id="@+id/matricular"
+        android:layout_width="152dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/button_f1"
+        android:contentDescription="@string/matricular"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_menu_book_24"
+        app:layout_anchorGravity="center"
+        tools:src="@drawable/ic_baseline_menu_book_24" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="10dp"
+        android:text="Matricular cursos"
+        android:textSize="18sp"
+        app:layout_anchorGravity="center" />
+
+    <TextView
+        android:id="@+id/noCursos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:text="NO HAY CURSOS PARA MOSTRAR"
+        android:textSize="18sp"
+        android:visibility="invisible" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <item android:title="Mantenimientos">
+        <menu>
+            <item
+                android:id="@+id/nav_curso"
+                android:enabled="true"
+                android:icon="@drawable/ic_menu_listas"
+                android:title="Cursos" />
+            <item
+                android:id="@+id/nav_estudiante"
+                android:enabled="true"
+                android:icon="@drawable/ic_menu_listas"
+                android:title="Estudiantes" />
+            <item
+                android:id="@+id/nav_persona"
+                android:enabled="false"
+                android:icon="@drawable/ic_person"
+                android:title="Mis datos" />
+            <item
+                android:id="@+id/nav_mis_cursos"
+                android:enabled="false"
+                android:icon="@drawable/ic_cursos"
+                android:title="Mis cursos" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_menu_salir"
+                android:title="Log Out" />
+        </menu>
+    </item>
+</menu>
