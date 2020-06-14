@@ -7,6 +7,7 @@ package Controllers;
 
 import Logic.Curso;
 import Logic.Estudiante;
+import Logic.Usuario;
 import Model.InterfaceModel;
 import java.util.List;
 
@@ -65,6 +66,14 @@ public class Control {
     public List<Curso> listarCursos() {
         try {
             return this.model.listarCursos();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    public Usuario getUsuario(String username, String password){
+         try {
+            return this.model.getUsuario(username, password);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;

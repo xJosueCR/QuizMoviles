@@ -7,6 +7,7 @@ package Model;
 
 import Logic.Curso;
 import Logic.Estudiante;
+import Logic.Usuario;
 import java.util.List;
 
 /**
@@ -26,4 +27,5 @@ public interface InterfaceModel {
     
       //-------------------Cursos-------------------------- 
     public List<Curso> listarCursos() throws Exception;
+    public Usuario getUsuario(String username, String password)throws Exception;
 }
