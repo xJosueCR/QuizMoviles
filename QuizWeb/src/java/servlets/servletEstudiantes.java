@@ -6,6 +6,7 @@
 package servlets;
 
 import Controllers.Control;
+import Logic.Estudiante;
 import Model.Model;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -45,7 +46,48 @@ public class servletEstudiantes extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Model dm1 = Model.instance();
+        Control dm = new Control(dm1);
+        String estudiante = request.getParameter("profesor");
+        if (estudiante != null) {
+            Estudiante p = new Gson().fromJson(estudiante, Estudiante.class);
+            dm.insertarProfesor(p);
+            String json = new Gson().toJson("insertado");
+            response.getWriter().println(json);
+            dm.modificarProfesor(p);
+        } else {
+            String json = new Gson().toJson("no insertado");
+            response.getWriter().println(json);
+        }
+
     }
 
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Model dm1 = Model.instance();
+        Control dm = new Control(dm1);
+        String estudiante = request.getParameter("profesor");
+        if (estudiante != null) {
+            Estudiante p = new Gson().fromJson(estudiante, Estudiante.class);
+            dm.insertarProfesor(p);
+            String json = new Gson().toJson("insertado");
+            response.getWriter().println(json);
+        } else {
+            String json = new Gson().toJson("no insertado");
+            response.getWriter().println(json);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int x = Integer.parseInt(request.getParameter("x"));
+        Model dm1 = Model.instance();
+        Control dm = new Control(dm1);
+
+        int result = dm.eliminarProfesor(x);
+        String json = new Gson().toJson(result);
+        response.getWriter().println(json);
+    }
 }

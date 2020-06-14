@@ -83,7 +83,7 @@ begin
 end ac_cursosEstudiante;
 /
 
-create or replace trigger delete_est_trg BEFORE DELETE on estudiante
+create or replace trigger delete_est_trg BEFORE DELETE OR UPDATE on estudiante
 REFERENCING OLD AS OLD NEW AS NEW
 FOR EACH ROW
 begin
@@ -137,9 +137,13 @@ end;
 /
 
 create or replace procedure PA_actualizarEst( Pid in estudiante.id%type,Pced in estudiante.cedula%type, Pnom in estudiante.nombre%type,
-Papellidos in estudiante.apellidos%type, Pedad estudiante.edad%type) as 
+Papellidos in estudiante.apellidos%type, Pedad estudiante.edad%type, 	t_in in array_table) as 
 begin 
 	update estudiante set nombre = Pnom, cedula = Pced, apellidos = Papellidos, edad = Pedad where id = Pid;
+	FOR i IN 1..t_in.count LOOP
+		insert into cursosEstudiante(id_estudiante,id_curso) values (idInserted,t_in(i));
+		
+    END LOOP;
 end;
 /
 PROMPT ===============================================================================================================================
