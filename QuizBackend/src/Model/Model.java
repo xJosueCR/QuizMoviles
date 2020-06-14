@@ -77,4 +77,8 @@ public class Model implements InterfaceModel {
     public void matricularCursos(int estudiante, int[] values) throws Exception {
             ServicioCurso.instance().matricularCursos(estudiante, values);
     }
+    @Override
+    public List<Curso> cursosEstudiante(int id) throws Exception{
+        return ServicioCurso.instance().cursosEstudiante(id);
+    }
 }

@@ -35,7 +35,7 @@ public class servletEstudiantes extends HttpServlet {
             throws ServletException, IOException {
         Model dm1 = Model.instance();
         Control dm = new Control(dm1);
-
+        int opcion = Integer.parseInt(request.getParameter("opcion"));
         String json = new Gson().toJson(dm.listarProfesores());
         response.setContentType("aplication/json");
         response.setCharacterEncoding("UTF-8");
@@ -85,7 +85,7 @@ public class servletEstudiantes extends HttpServlet {
         int x = Integer.parseInt(request.getParameter("x"));
         Model dm1 = Model.instance();
         Control dm = new Control(dm1);
-            
+
         int result = dm.eliminarProfesor(x);
         String json = new Gson().toJson(result);
         response.getWriter().println(json);

@@ -26,38 +26,52 @@ import javax.servlet.http.HttpServletResponse;
 //@WebServlet(name = "servletCursos", urlPatterns = {"/servletCursos"})
 public class servletCursos extends HttpServlet {
 
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-            Model dm1 = Model.instance();
-            Control dm = new Control(dm1);
-            List<Curso> list = dm.listarCursos();
-            String json = new Gson().toJson(dm.listarCursos());
-            response.setContentType("aplication/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().println(json);
-        
-    }   
-     @Override
+        Model dm1 = Model.instance();
+        Control dm = new Control(dm1);
+        List<Curso> list;
+        int opcion = Integer.parseInt(request.getParameter("opcion"));
+        switch (opcion) {
+            case 1:
+                list = dm.listarCursos();
+                String json = new Gson().toJson(dm.listarCursos());
+                response.setContentType("aplication/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().println(json);
+                break;
+            case 2:
+                int estudiante = Integer.parseInt(request.getParameter("estudiante"));
+                String json2 = new Gson().toJson(dm.cursosEstudiante(estudiante));
+                response.setContentType("aplication/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().println(json2);
+                break;
+            default: break;
+
+        }
+
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-            Model dm1 = Model.instance();
-            Control dm = new Control(dm1);
-            Gson gson = new Gson();
-            int estudiante = Integer.parseInt(request.getParameter("estudiante"));
-            int[] values = gson.fromJson(request.getParameter("values"), int[].class);
-            if(dm.eliminarCursos(estudiante)){
-                dm.matricularCursos(estudiante, values);
-            }
-    }   
+        Model dm1 = Model.instance();
+        Control dm = new Control(dm1);
+        Gson gson = new Gson();
+        int estudiante = Integer.parseInt(request.getParameter("estudiante"));
+        int[] values = gson.fromJson(request.getParameter("values"), int[].class);
+        if (dm.eliminarCursos(estudiante)) {
+            dm.matricularCursos(estudiante, values);
+        }
+    }
 }
