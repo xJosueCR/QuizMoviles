@@ -10,13 +10,21 @@ create user practicaClase identified by practicaClase;
 grant dba to practicaClase;
 conn practicaClase/practicaClase
 
+drop table usuario;
+create table usuario(
+id number(3),
+username varchar(10) not null,
+password varchar(10) not null,
+rol varchar(10) not null
+);
 drop table estudiante;
 create table estudiante(
 id number (3) ,
 cedula varchar2(10) not null,
 nombre   varchar2(50) not null,
 apellidos   varchar2(50) not null,
-edad  number(3)  not null
+edad  number(3)  not null,
+userr number(3) not null
 );
 
 drop table cursosEstudiante;
@@ -36,23 +44,35 @@ creditos  number(2)  not null
 
 
 PROMPT ===============================================================================================================================
+alter table usuario add constraint practicaClase_user_PK primary key (id);
 alter table estudiante add constraint practicaClase_est_PK primary key (id);
 alter table cursosEstudiante add constraint practicaClase_cE_PK primary key (id);
 alter table curso add constraint practicaClase_curso_PK primary key (id);
 
 alter table estudiante add constraint lab01_curso_UK unique (cedula);
 
+alter table estudiante add constraint  estudiante_fk_user foreign key(userr) references usuario;
 alter table cursosEstudiante add constraint cursosEstudiante_fk_estudiante foreign key (id_estudiante) references estudiante;
 alter table cursosEstudiante add constraint cursosEstudiante_fk_curso foreign key (id_curso)  references curso;
 PROMPT ===============================================================================================================================
 
 PROMPT ===============================================================================================================================
+create sequence sec_usuario   start with 1    increment by 1;
 create sequence sec_curso   start with 1    increment by 1;
 create sequence sec_estudiante  start with 1    increment by 1;
 create sequence sec_cursosEstudiante   start with 1    increment by 1;
 PROMPT ===============================================================================================================================
 
 PROMPT ===============================================================================================================================
+create or replace trigger ac_usuario BEFORE INSERT on usuario
+REFERENCING OLD AS OLD NEW AS NEW
+FOR EACH ROW
+begin
+  SELECT sec_usuario.NEXTVAL
+  INTO   :new.id
+  FROM   dual;
+end ac_usuario;
+/
 create or replace trigger ac_estudiante BEFORE INSERT on estudiante
 REFERENCING OLD AS OLD NEW AS NEW
 FOR EACH ROW
@@ -165,23 +185,38 @@ create or replace procedure PA_insertarEstudiante(new_cedula in estudiante.cedul
 												new_nombre in estudiante.nombre%type,
 												new_apellidos in estudiante.apellidos%type,
 												new_edad in estudiante.edad%type,
-												t_in in array_table
+												t_in in array_table,
+												new_username in usuario.username%type,
+												new_password in usuario.password%type,
+												new_rol in usuario.rol%type
 												)
 as
-idInserted number(3);
+idInserted number(3), idUsuario number(3);
 begin 
-	insert into  estudiante(cedula, nombre,apellidos, edad) values(new_cedula, new_nombre,new_apellidos, new_edad) returning id into idInserted;
+	insert into usuario(username, password, rol) values(new_username, new_password, new_rol) returning id into idUsuario;
+	insert into  estudiante(cedula, nombre,apellidos, edad, userr) 
+	values(new_cedula, new_nombre,new_apellidos, new_edad, idUsuario) returning id into idInserted;
+	
 	FOR i IN 1..t_in.count LOOP
 		insert into cursosEstudiante(id_estudiante,id_curso) values (idInserted,t_in(i));
 		
     END LOOP;
 end;
 /
-
 create or replace procedure PA_eliminarEstudiante(id in estudiante.id%type)
 as
 begin
 	delete from estudiante where estudiante.id = id;
+end;
+/
+create or replace function PA_getUsuario(new_username in usuario.username%type, new_password in usuario.password%type)
+return Types.ref_cursor
+as 
+	usuario_cursor types.ref_cursor;
+begin
+	open usuario_cursor for 
+		select * from usuario where username = new_username and password = new_password;
+return usuario_cursor;
 end;
 /
 insert into curso (descripcion,nombre,creditos) values ('123','c1',3);
@@ -192,7 +227,7 @@ insert into curso (descripcion,nombre,creditos) values ('123','c4',3);
 insert into estudiante(cedula, nombre, apellidos, edad) values(111,'test','test',15);
 select * from curso;
 
-
+insert into usuario(username, password, rol) values('admin','admin','admin');
 select * from estudiante;
 select * from cursosEstudiante;
 select PA_cursosDeEst(1) cursosDeEst from dual;

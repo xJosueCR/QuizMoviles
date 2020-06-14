@@ -7,8 +7,10 @@ package Model;
 
 import Data.ServicioCurso;
 import Data.ServicioEstudiante;
+import Data.ServicioUsuario;
 import Logic.Curso;
 import Logic.Estudiante;
+import Logic.Usuario;
 import java.util.List;
 
 /**
@@ -57,5 +59,9 @@ public class Model implements InterfaceModel{
     @Override
     public List<Curso> listarCursos() throws Exception {
         return ServicioCurso.instance().listarCursos();
+    }
+     @Override
+   public Usuario getUsuario(String username, String password) throws Exception {
+        return ServicioUsuario.instance().getUsuario(username,password);
     }
 }
