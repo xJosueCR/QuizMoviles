@@ -47,5 +47,17 @@ public class servletCursos extends HttpServlet {
             response.getWriter().println(json);
         
     }   
-    
+     @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+            Model dm1 = Model.instance();
+            Control dm = new Control(dm1);
+            Gson gson = new Gson();
+            int estudiante = Integer.parseInt(request.getParameter("estudiante"));
+            int[] values = gson.fromJson(request.getParameter("values"), int[].class);
+            if(dm.eliminarCursos(estudiante)){
+                dm.matricularCursos(estudiante, values);
+            }
+    }   
 }

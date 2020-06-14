@@ -17,7 +17,8 @@ import java.util.List;
  *
  * @author Josue
  */
-public class Model implements InterfaceModel{
+public class Model implements InterfaceModel {
+
     private final ServicioEstudiante servicioEstudiante;
     private final ServicioCurso servicioCurso;
 
@@ -36,9 +37,10 @@ public class Model implements InterfaceModel{
         servicioCurso = new ServicioCurso();
 
     }
+
     @Override
     public void insertarEstudiante(Estudiante estudiante) throws Exception {
-       ServicioEstudiante.instance().insertarProfesor(estudiante);
+        ServicioEstudiante.instance().insertarProfesor(estudiante);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class Model implements InterfaceModel{
 
     @Override
     public void eliminarProfesor(int id) throws Exception {
-       ServicioEstudiante.instance().eliminarEstudiante(id);
+        ServicioEstudiante.instance().eliminarEstudiante(id);
     }
 
     @Override
@@ -60,8 +62,19 @@ public class Model implements InterfaceModel{
     public List<Curso> listarCursos() throws Exception {
         return ServicioCurso.instance().listarCursos();
     }
-     @Override
-   public Usuario getUsuario(String username, String password) throws Exception {
-        return ServicioUsuario.instance().getUsuario(username,password);
+
+    @Override
+    public Usuario getUsuario(String username, String password) throws Exception {
+        return ServicioUsuario.instance().getUsuario(username, password);
+    }
+
+    @Override
+    public boolean eliminarCursos(int id) throws Exception {
+        return ServicioCurso.instance().eliminarCursos(id);
+    }
+
+    @Override
+    public void matricularCursos(int estudiante, int[] values) throws Exception {
+            ServicioCurso.instance().matricularCursos(estudiante, values);
     }
 }

@@ -48,13 +48,13 @@ public class servletEstudiantes extends HttpServlet {
             throws ServletException, IOException {
         Model dm1 = Model.instance();
         Control dm = new Control(dm1);
-        String estudiante = request.getParameter("profesor");
+        String estudiante = request.getParameter("estudiante");
         if (estudiante != null) {
             Estudiante p = new Gson().fromJson(estudiante, Estudiante.class);
             dm.insertarProfesor(p);
             String json = new Gson().toJson("insertado");
             response.getWriter().println(json);
-            dm.modificarProfesor(p);
+            dm.insertarProfesor(p);
         } else {
             String json = new Gson().toJson("no insertado");
             response.getWriter().println(json);
@@ -67,11 +67,11 @@ public class servletEstudiantes extends HttpServlet {
             throws ServletException, IOException {
         Model dm1 = Model.instance();
         Control dm = new Control(dm1);
-        String estudiante = request.getParameter("profesor");
+        String estudiante = request.getParameter("estudiante");
         if (estudiante != null) {
             Estudiante p = new Gson().fromJson(estudiante, Estudiante.class);
-            dm.insertarProfesor(p);
-            String json = new Gson().toJson("insertado");
+            dm.modificarProfesor(p);
+            String json = new Gson().toJson("actualizado");
             response.getWriter().println(json);
         } else {
             String json = new Gson().toJson("no insertado");
@@ -85,7 +85,7 @@ public class servletEstudiantes extends HttpServlet {
         int x = Integer.parseInt(request.getParameter("x"));
         Model dm1 = Model.instance();
         Control dm = new Control(dm1);
-
+            
         int result = dm.eliminarProfesor(x);
         String json = new Gson().toJson(result);
         response.getWriter().println(json);

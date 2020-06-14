@@ -29,7 +29,6 @@ userr number(3) not null
 
 drop table cursosEstudiante;
 create table cursosEstudiante(
-id number (3) ,
 id_estudiante number (3) not null,
 id_curso number (3) not null
 );
@@ -46,7 +45,6 @@ creditos  number(2)  not null
 PROMPT ===============================================================================================================================
 alter table usuario add constraint practicaClase_user_PK primary key (id);
 alter table estudiante add constraint practicaClase_est_PK primary key (id);
-alter table cursosEstudiante add constraint practicaClase_cE_PK primary key (id);
 alter table curso add constraint practicaClase_curso_PK primary key (id);
 
 alter table estudiante add constraint lab01_curso_UK unique (cedula);
@@ -60,7 +58,6 @@ PROMPT =========================================================================
 create sequence sec_usuario   start with 1    increment by 1;
 create sequence sec_curso   start with 1    increment by 1;
 create sequence sec_estudiante  start with 1    increment by 1;
-create sequence sec_cursosEstudiante   start with 1    increment by 1;
 PROMPT ===============================================================================================================================
 
 PROMPT ===============================================================================================================================
@@ -93,17 +90,9 @@ begin
 end ac_curso;
 /
 
-create or replace trigger ac_cursosEstudiante BEFORE INSERT on cursosEstudiante
-REFERENCING OLD AS OLD NEW AS NEW
-FOR EACH ROW
-begin
-  SELECT sec_cursosEstudiante.NEXTVAL
-  INTO   :new.id
-  FROM   dual;
-end ac_cursosEstudiante;
-/
 
-create or replace trigger delete_est_trg BEFORE DELETE OR UPDATE on estudiante
+
+create or replace trigger delete_est_trg BEFORE DELETE on estudiante
 REFERENCING OLD AS OLD NEW AS NEW
 FOR EACH ROW
 begin
@@ -111,6 +100,7 @@ begin
 	
 end delete_est_trg;
 /
+
 show error
 PROMPT ===============================================================================================================================
 
@@ -157,13 +147,9 @@ end;
 /
 
 create or replace procedure PA_actualizarEst( Pid in estudiante.id%type,Pced in estudiante.cedula%type, Pnom in estudiante.nombre%type,
-Papellidos in estudiante.apellidos%type, Pedad estudiante.edad%type, 	t_in in array_table) as 
+Papellidos in estudiante.apellidos%type, Pedad estudiante.edad%type) as 
 begin 
 	update estudiante set nombre = Pnom, cedula = Pced, apellidos = Papellidos, edad = Pedad where id = Pid;
-	FOR i IN 1..t_in.count LOOP
-		insert into cursosEstudiante(id_estudiante,id_curso) values (idInserted,t_in(i));
-		
-    END LOOP;
 end;
 /
 PROMPT ===============================================================================================================================
@@ -185,22 +171,17 @@ create or replace procedure PA_insertarEstudiante(new_cedula in estudiante.cedul
 												new_nombre in estudiante.nombre%type,
 												new_apellidos in estudiante.apellidos%type,
 												new_edad in estudiante.edad%type,
-												t_in in array_table,
 												new_username in usuario.username%type,
 												new_password in usuario.password%type,
 												new_rol in usuario.rol%type
 												)
 as
-idInserted number(3), idUsuario number(3);
+idUsuario number(3);
 begin 
 	insert into usuario(username, password, rol) values(new_username, new_password, new_rol) returning id into idUsuario;
 	insert into  estudiante(cedula, nombre,apellidos, edad, userr) 
-	values(new_cedula, new_nombre,new_apellidos, new_edad, idUsuario) returning id into idInserted;
+	values(new_cedula, new_nombre,new_apellidos, new_edad, idUsuario);
 	
-	FOR i IN 1..t_in.count LOOP
-		insert into cursosEstudiante(id_estudiante,id_curso) values (idInserted,t_in(i));
-		
-    END LOOP;
 end;
 /
 create or replace procedure PA_eliminarEstudiante(id in estudiante.id%type)
@@ -219,12 +200,28 @@ begin
 return usuario_cursor;
 end;
 /
-insert into curso (descripcion,nombre,creditos) values ('123','c1',3);
-insert into curso (descripcion,nombre,creditos) values ('123','c2',3);
-insert into curso (descripcion,nombre,creditos) values ('123','c3',3);
-insert into curso (descripcion,nombre,creditos) values ('123','c4',3);
+create or replace procedure PA_eliminarCursosEstudiante(id in estudiante.id%type)
+as
+begin
+	delete from cursosEstudiante where cursosEstudiante.id_estudiante = id;
+end;
+/
+create or replace procedure PA_matricularCursos(id in estudiante.id%type, t_in in array_table)
+as
+begin
+	FOR i IN 1..t_in.count LOOP
+		insert into cursosEstudiante(id_estudiante,id_curso) values (id,t_in(i));
+    END LOOP;
+end;
+/
+insert into curso (descripcion,nombre,creditos) values ('EIF404','Paradigmas',3);
+insert into curso (descripcion,nombre,creditos) values ('EIF405','Programacion III',3);
+insert into curso (descripcion,nombre,creditos) values ('EIF406','Programacion IV',4);
+insert into curso (descripcion,nombre,creditos) values ('EIF407','Programacion II',3);
+insert into curso (descripcion,nombre,creditos) values ('EIF408','Programacion I',4);
+insert into curso (descripcion,nombre,creditos) values ('EIF409','Soporte',4);
+insert into curso (descripcion,nombre,creditos) values ('EIF410','Ingenieria',4);
 
-insert into estudiante(cedula, nombre, apellidos, edad) values(111,'test','test',15);
 select * from curso;
 
 insert into usuario(username, password, rol) values('admin','admin','admin');
@@ -232,6 +229,7 @@ select * from estudiante;
 select * from cursosEstudiante;
 select PA_cursosDeEst(1) cursosDeEst from dual;
 select PA_cursosList cursos from dual;
+commit;
 -- exec PA_eliminarCursosDeEst(1);
 -- delete from estudiante ce where ce.id = 1;
 -- select * from cursosEstudiante;

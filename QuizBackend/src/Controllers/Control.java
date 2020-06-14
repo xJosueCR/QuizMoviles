@@ -16,7 +16,8 @@ import java.util.List;
  * @author Josue
  */
 public class Control {
-      protected InterfaceModel model;
+
+    protected InterfaceModel model;
 
     public Control() {
 
@@ -25,6 +26,7 @@ public class Control {
     public Control(InterfaceModel model) {
         this.model = model;
     }
+
     public int insertarProfesor(Estudiante estudiante) {
         try {
             this.model.insertarEstudiante(estudiante);
@@ -63,6 +65,7 @@ public class Control {
             return 0;
         }
     }
+
     public List<Curso> listarCursos() {
         try {
             return this.model.listarCursos();
@@ -71,12 +74,30 @@ public class Control {
             return null;
         }
     }
-    public Usuario getUsuario(String username, String password){
-         try {
+
+    public Usuario getUsuario(String username, String password) {
+        try {
             return this.model.getUsuario(username, password);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
+        }
+    }
+
+    public boolean eliminarCursos(int id) {
+        try {
+            return this.model.eliminarCursos(id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public void matricularCursos(int estudiante, int[] values) {
+        try {
+            this.model.matricularCursos(estudiante, values);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }
