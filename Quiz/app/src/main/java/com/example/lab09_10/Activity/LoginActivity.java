@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
     private UserLoginTask mAuthTask = null;
     private Usuario usuario;
-    private DBAdapterSQL db;
+    //private DBAdapterSQL db;
     private SharedPreferences prefs;
 
     @Override

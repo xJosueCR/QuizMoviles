@@ -46,7 +46,7 @@ public class CursosEstudianteActivity extends AppCompatActivity implements Recyc
     private List<Curso> cursoList;
     private SearchView searchView;
     private CoordinatorLayout coordinatorLayout;
-    private DBAdapterSQL db;
+   // private DBAdapterSQL db;
     private ImageButton matricular;
     private Estudiante estudiante;
     private TextView textView;

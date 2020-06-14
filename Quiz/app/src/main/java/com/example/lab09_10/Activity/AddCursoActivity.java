@@ -20,13 +20,13 @@ public class AddCursoActivity extends AppCompatActivity {
     private EditText descripcion;
     private EditText creditos;
     private ImageView sendButton;
-    private DBAdapterSQL db;
+    //private DBAdapterSQL db;
     private Curso curso;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_curso);
-        db = DBAdapterSQL.getInstance(this);
+        //db = DBAdapterSQL.getInstance(this);
         descripcion = findViewById(R.id.descripcion);
         creditos = findViewById(R.id.creditos);
         sendButton = findViewById(R.id.sendCurso);

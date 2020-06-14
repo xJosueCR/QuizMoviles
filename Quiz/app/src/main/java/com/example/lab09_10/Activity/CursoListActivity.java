@@ -42,7 +42,7 @@ public class CursoListActivity extends AppCompatActivity implements RecyclerItem
     private List<Curso> cursoList;
     private SearchView searchView;
     private CoordinatorLayout coordinatorLayout;
-    private DBAdapterSQL db;
+    //private DBAdapterSQL db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

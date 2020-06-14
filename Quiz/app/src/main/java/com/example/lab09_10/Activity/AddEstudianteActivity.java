@@ -28,7 +28,7 @@ public class AddEstudianteActivity extends AppCompatActivity {
     private EditText edad;
     private ImageView sendButton;
     private ImageView edit;
-    private DBAdapterSQL db;
+    //private DBAdapterSQL db;
     private Estudiante estudiante;
     private Boolean admin;
     private ProgressBar loadingProgressBar;

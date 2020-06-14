@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    DBAdapterSQL db;
+    //DBAdapterSQL db;
     private LinearLayout linearLayout;
     private CheckBox checkBox;
     private List<CheckBox> checkBoxList = new ArrayList<>();

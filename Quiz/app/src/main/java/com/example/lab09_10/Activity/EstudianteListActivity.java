@@ -41,7 +41,7 @@ public class EstudianteListActivity extends AppCompatActivity implements Recycle
     private List<Estudiante> estudianteList;
     private SearchView searchView;
     private CoordinatorLayout coordinatorLayout;
-    private DBAdapterSQL db;
+    //private DBAdapterSQL db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

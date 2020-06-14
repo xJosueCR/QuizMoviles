@@ -32,7 +32,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
     private AppBarConfiguration mAppBarConfiguration;
     private Usuario currentUser;
-    private DBAdapterSQL db;
+    //private DBAdapterSQL db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
