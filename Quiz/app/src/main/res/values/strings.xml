@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Quiz</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="invalid_password">Password is too short</string>
+
+    <string name="error_incorrect_password">"Password is incorrect"</string>
+    <string name="title_activity_nav_drawer">Bienvenido</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Matricula-Profesores-Cursos</string>
+    <string name="nav_header_subtitle">2020</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="title_activity_adm_profesor">AdmProfesorActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="profesor">Profesores</string>
+    <string name="curso">Cursos</string>
+
+
+    <string name="delete">ELIMINAR</string>
+    <string name="edit">EDITAR</string>
+    <string name="action_search">Buscar</string>
+    <string name="title_activity_add_upd_profesor">Profesores</string>
+    <!-- Strings used for fragments for navigation -->
+
+
+    <string name="nombreProfesor">Nombre</string>
+    <string name="emailProfesor">Email</string>
+    <string name="cedulaProfesor">Cedula</string>
+    <string name="telefonoProfesor">Telefono</string>
+
+    <string name="title_activity_adm_curso">AdmCursoActivity</string>
+</resources>
