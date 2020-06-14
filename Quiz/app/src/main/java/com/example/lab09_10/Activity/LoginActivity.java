@@ -32,13 +32,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lab09_10.Data.AsyncTaskManager;
 import com.example.lab09_10.Data.DBAdapterSQL;
 import com.example.lab09_10.Model.Estudiante;
 import com.example.lab09_10.Model.Usuario;
 import com.example.lab09_10.R;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -52,7 +59,8 @@ public class LoginActivity extends AppCompatActivity {
     private Usuario usuario;
     //private DBAdapterSQL db;
     private SharedPreferences prefs;
-
+    private String user;
+    private String password;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login);
         loadingProgressBar = findViewById(R.id.loading);
         //mLoginFormView = findViewById(R.id.login_form);
-        db = DBAdapterSQL.getInstance(this);
+
         //login
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,8 +87,8 @@ public class LoginActivity extends AppCompatActivity {
     private void attemptLogin() {
         usernameEditText.setError(null);
         passwordEditText.setError(null);
-        String user = usernameEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
+        user = usernameEditText.getText().toString();
+        password = passwordEditText.getText().toString();
         boolean cancel = false;
         View focusView = null;
         if (TextUtils.isEmpty(password)) {
@@ -96,12 +104,35 @@ public class LoginActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            showProgress(true);
-            mAuthTask = new UserLoginTask(user, password);
-            mAuthTask.execute((Void) null);
+            String url = "http://192.168.1.8:14715/QuizWeb/servletUsuario?" +
+                    "username="+user+"&password="+password;
+            AsyncTaskManager net = new AsyncTaskManager(url, new AsyncTaskManager.AsyncResponse() {
+                @Override
+                public void processFinish(String output) {
+                    JsonParser parser = new JsonParser();
+                    JsonObject jsonObject = (JsonObject) parser.parse(output);
+
+                    //carreraList = new ArrayList<>();
+                    Usuario c = new Usuario(
+                            jsonObject.get("id").getAsInt(),
+                            jsonObject.get("username").getAsString(),
+                            jsonObject.get("password").getAsString(),
+                            jsonObject.get("rol").getAsString()
+                    );
+                    showProgress(true);
+                    mAuthTask = new UserLoginTask(user, password);
+                    mAuthTask.execute((Void) null);
+                }
+            });
+            net.execute(AsyncTaskManager.GET);
+
         }
     }
+    protected Usuario getUsuario(String mUser, String mPassword){
+        Usuario aux = null;
 
+        return aux;
+    }
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
 
@@ -151,7 +182,8 @@ public class LoginActivity extends AppCompatActivity {
                 //db.insertarUsuario(new Usuario(0,mUser, mPassword, "admin"));
                 //db.insertarEstudiante(new
                       //  Estudiante(0, "207610110", "Josue", "Cespedes",19,null,1));
-              usuario = db.getUsuario(mUser, mPassword);
+              usuario = getUsuario(mUser, mPassword);
+
               //db.deleteUsuario(13);
                 if (usuario != null) {
                     return true;
@@ -193,6 +225,7 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
         }
+
     }
 
 }
