@@ -233,3 +233,4 @@ commit;
 -- exec PA_eliminarCursosDeEst(1);
 -- delete from estudiante ce where ce.id = 1;
 -- select * from cursosEstudiante;
+--testing
