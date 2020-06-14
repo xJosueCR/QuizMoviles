@@ -29,5 +29,6 @@ public interface InterfaceModel {
     public List<Curso> listarCursos() throws Exception;
     public boolean eliminarCursos(int id)throws Exception;
     public void matricularCursos(int estudiante, int[] values)throws Exception;
+    public List<Curso> cursosEstudiante(int id) throws Exception;
     public Usuario getUsuario(String username, String password)throws Exception;
 }

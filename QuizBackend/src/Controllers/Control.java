@@ -100,4 +100,12 @@ public class Control {
             System.out.println(e.getMessage());
         }
     }
+        public List<Curso> cursosEstudiante(int id) {
+        try {
+            return this.model.cursosEstudiante(id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }

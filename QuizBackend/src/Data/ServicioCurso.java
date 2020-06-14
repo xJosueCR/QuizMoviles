@@ -26,6 +26,7 @@ public class ServicioCurso extends Servicio {
     private static final String LISTAR_CURSOS = "{?=call PA_cursosList()}";
     private static final String DELETE_CURSOS = "{call PA_eliminarCursosEstudiante(?)}";
     private static final String MATRICULAR_CURSOS = "{call PA_matricularCursos(?,?)}";
+    private static final String CURSOS_ESTUDIANTE = "{?=call PA_cursosDeEst(?)}";
     private static ServicioCurso uniqueInstance;
 
     public static ServicioCurso instance() {
@@ -150,5 +151,50 @@ public class ServicioCurso extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
+    }
+     public List<Curso> cursosEstudiante(int id) throws GlobalException, NoDataException { // No vincula aun el arreglo de cursos correctamente
+        try {
+            conectar();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+            throw new GlobalException("No se ha localizado el Driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+
+        ResultSet rs = null;
+        List<Curso> cursos = new LinkedList<>();
+        Curso curso = null;
+        CallableStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareCall(CURSOS_ESTUDIANTE);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setInt(2, id);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+            while (rs.next()) {
+                curso = new Curso(rs.getInt("id"), rs.getString("nombre"), rs.getInt("creditos"));
+                cursos.add(curso);
+            }
+        } catch (SQLException e) {
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (cursos.isEmpty()) {
+            throw new NoDataException("No hay datos");
+        }
+        return cursos;
     }
 }
