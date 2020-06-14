@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:orientation="vertical">
-
     <RelativeLayout
         android:id="@+id/view_background_edit"
         android:layout_width="match_parent"
@@ -20,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/padd_10"
-            android:src="@drawable/ic_edit_white" />
+            android:src="@drawable/ic_remove_red_eye_black_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -74,7 +73,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
-            android:textColor="@color/item_name"
+            android:textColor="@color/design_default_color_on_secondary"
             android:textSize="17dp" />
 
         <TextView
@@ -86,7 +85,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
-            android:textColor="@color/description"
+            android:textColor="@color/design_default_color_on_secondary"
             android:textSize="17dp" />
 
         <TextView
@@ -95,7 +94,16 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/titleFirstLbl"
             android:layout_marginTop="5dp"
-            android:textColor="@color/description"
+            android:textColor="@color/design_default_color_on_secondary"
             android:textSize="12dp" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/item_image_view"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="50dp"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="1dp" />
     </RelativeLayout>
+
 </FrameLayout>
