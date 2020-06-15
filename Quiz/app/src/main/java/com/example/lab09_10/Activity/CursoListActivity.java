@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.example.lab09_10.Adapter.CursoAdapter;
 import com.example.lab09_10.Adapter.EstudianteAdapter;
+import com.example.lab09_10.Data.AsyncTaskManager;
 import com.example.lab09_10.Data.DBAdapterSQL;
 import com.example.lab09_10.Helper.RecyclerItemTouchHelper;
 import com.example.lab09_10.Model.Curso;
@@ -32,6 +33,10 @@ import android.widget.Toast;
 
 import com.example.lab09_10.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class CursoListActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
@@ -43,6 +48,7 @@ public class CursoListActivity extends AppCompatActivity implements RecyclerItem
     private SearchView searchView;
     private CoordinatorLayout coordinatorLayout;
     //private DBAdapterSQL db;
+    AsyncTaskManager net;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +57,8 @@ public class CursoListActivity extends AppCompatActivity implements RecyclerItem
         setSupportActionBar(toolbar);
         this.coordinatorLayout = findViewById(R.id.coordinator_layout_curso);
         mRecyclerView = findViewById(R.id.recycler_cursoList);
-        db = DBAdapterSQL.getInstance(this);
-        cursoList = db.listCurso();
+
+        listCurso();
         mAdapter = new CursoAdapter(cursoList, this);
         whiteNotificationBar(mRecyclerView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -87,9 +93,7 @@ public class CursoListActivity extends AppCompatActivity implements RecyclerItem
                 // save the index deleted
                 final int deletedIndex = viewHolder.getAdapterPosition();
                 int id = cursoList.get(deletedIndex).getId();
-                db.deleteCurso(id);
-                //db.deleteUsuario(id);
-                //db.close();
+                deleteCurso(id);
                 // remove the item from recyclerView
                 mAdapter.removeItem(viewHolder.getAdapterPosition());
 
@@ -99,7 +103,7 @@ public class CursoListActivity extends AppCompatActivity implements RecyclerItem
                     @Override
                     public void onClick(View view) {
                         // undo is selected, restore the deleted item from adapter
-                        mAdapter.restoreItem(deletedIndex);
+                mAdapter.restoreItem(deletedIndex);
                     }
                 });
                 snackbar.setActionTextColor(Color.YELLOW);
@@ -174,5 +178,43 @@ public class CursoListActivity extends AppCompatActivity implements RecyclerItem
         Intent add = new Intent(CursoListActivity.this, AddCursoActivity.class);
         add.putExtra("editable", false);
         startActivity(add);
+    }
+
+    public void listCurso(){
+        cursoList = new ArrayList<>();
+        AsyncTaskManager net = new AsyncTaskManager("http://192.168.1.8:14715/QuizWeb/servletCursos", new AsyncTaskManager.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                try {
+                    JSONArray array = new JSONArray(output);
+                    //carreraList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        Curso c = new Curso(
+                                array.getJSONObject(i).getInt("id"),
+                                array.getJSONObject(i).getString("descripcion"),
+                                array.getJSONObject(i).getInt("creditos")
+                        );
+
+                        cursoList.add(c);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        net.execute(AsyncTaskManager.GET);
+    }
+    public void deleteCurso(int id){
+        String aux = "http://192.168.1.8:14715/QuizWeb/servletCursos?" +
+                "x="+id;
+        AsyncTaskManager net = new AsyncTaskManager(aux, new AsyncTaskManager.AsyncResponse() {
+
+            @Override
+            public void processFinish(String output) {
+
+            }
+        });
+        net.execute(AsyncTaskManager.DELETE);
     }
 }

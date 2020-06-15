@@ -9,8 +9,10 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.example.lab09_10.Adapter.EstudianteAdapter;
+import com.example.lab09_10.Data.AsyncTaskManager;
 import com.example.lab09_10.Data.DBAdapterSQL;
 import com.example.lab09_10.Helper.RecyclerItemTouchHelper;
+import com.example.lab09_10.Model.Curso;
 import com.example.lab09_10.Model.Estudiante;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -31,6 +33,10 @@ import android.widget.Toast;
 
 import com.example.lab09_10.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class EstudianteListActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
@@ -52,8 +58,7 @@ public class EstudianteListActivity extends AppCompatActivity implements Recycle
         //getSupportActionBar().setTitle(getString(R.string.appList));
         this.coordinatorLayout = findViewById(R.id.coordinator_layout_estudiante);
         mRecyclerView = findViewById(R.id.recycler_jobAppList);
-        db = DBAdapterSQL.getInstance(this);
-        estudianteList = db.listEstudiantes();
+        listEstudiante();
         mAdapter = new EstudianteAdapter(estudianteList, this);
         whiteNotificationBar(mRecyclerView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -88,8 +93,8 @@ public class EstudianteListActivity extends AppCompatActivity implements Recycle
                 // save the index deleted
                 final int deletedIndex = viewHolder.getAdapterPosition();
                 int id = estudianteList.get(deletedIndex).getId();
-                db.deleteEstudiante(id);
-                db.deleteUsuario(id);
+                deleteEstudiante(id);
+                deleteUsuario(id);
                 //db.close();
                 // remove the item from recyclerView
                 mAdapter.removeItem(viewHolder.getAdapterPosition());
@@ -179,4 +184,57 @@ public class EstudianteListActivity extends AppCompatActivity implements Recycle
         startActivity(add);
     }
 
+    public void listEstudiante(){
+        estudianteList = new ArrayList<>();
+        AsyncTaskManager net = new AsyncTaskManager("http://192.168.1.8:14715/QuizWeb/servletEstudiantes", new AsyncTaskManager.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                try {
+                    JSONArray array = new JSONArray(output);
+                    //carreraList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        Estudiante c = new Estudiante(
+                                array.getJSONObject(i).getInt("id"),
+                                array.getJSONObject(i).getString("cedula"),
+                                array.getJSONObject(i).getString("nombre"),
+                                array.getJSONObject(i).getString("apellidos"),
+                                array.getJSONObject(i).getInt("edad"),
+                                null,
+                                array.getJSONObject(i).getInt("user")
+                        );
+
+                        estudianteList.add(c);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        net.execute(AsyncTaskManager.GET);
+    }
+    public void deleteEstudiante(int id){
+        String aux = "http://192.168.1.8:14715/QuizWeb/servletEstudiantes?" +
+                "x="+id;
+        AsyncTaskManager net = new AsyncTaskManager(aux, new AsyncTaskManager.AsyncResponse() {
+
+            @Override
+            public void processFinish(String output) {
+
+            }
+        });
+        net.execute(AsyncTaskManager.DELETE);
+    }
+    public void deleteUsuario(int id){
+        String aux = "http://192.168.1.8:14715/QuizWeb/servletUsuario?" +
+                "x="+id;
+        AsyncTaskManager net = new AsyncTaskManager(aux, new AsyncTaskManager.AsyncResponse() {
+
+            @Override
+            public void processFinish(String output) {
+
+            }
+        });
+        net.execute(AsyncTaskManager.DELETE);
+    }
 }
