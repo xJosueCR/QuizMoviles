@@ -20,7 +20,7 @@ public interface InterfaceModel {
     public void insertarEstudiante(Estudiante estudiante) throws Exception;
 
     public List<Estudiante> listarEstudiantes() throws Exception;
-
+    public Estudiante getEstudiante(int user) throws Exception;
     public void eliminarProfesor(int id) throws Exception;
 
     public void modificarEstudiante(Estudiante estudiante) throws Exception;
