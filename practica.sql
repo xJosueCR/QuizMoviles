@@ -164,7 +164,6 @@ return estudiante_cursor;
 end;
 /
 
-
 CREATE TYPE array_table AS TABLE OF NUMBER;
 /
 create or replace procedure PA_insertarEstudiante(new_cedula in estudiante.cedula%type,
@@ -198,6 +197,16 @@ begin
 	open usuario_cursor for 
 		select * from usuario where username = new_username and password = new_password;
 return usuario_cursor;
+end;
+/
+create or replace function PA_estudiante(new_userr in estudiante.userr%type)
+return Types.ref_cursor
+as 
+	estudiante_cursor types.ref_cursor;
+begin
+	open estudiante_cursor for 
+		select * from estudiante where estudiante.userr = new_userr;
+return estudiante_cursor;
 end;
 /
 create or replace procedure PA_eliminarCursosEstudiante(id in estudiante.id%type)
