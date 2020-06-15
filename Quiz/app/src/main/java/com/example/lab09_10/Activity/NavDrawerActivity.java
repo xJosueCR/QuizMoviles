@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.lab09_10.Data.AsyncTaskManager;
 import com.example.lab09_10.Data.DBAdapterSQL;
 import com.example.lab09_10.Model.Estudiante;
 import com.example.lab09_10.Model.Usuario;
@@ -16,6 +17,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -180,19 +183,59 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         startActivity(a);
     }
     public void openMisDatos(){
-        Estudiante estudiante = db.getEstudiante(this.currentUser.getId());
-        finish();
-        Intent a = new Intent(this, AddEstudianteActivity.class);
-        a.putExtra("estudiante", estudiante);
-        a.putExtra("editable", true);
-        a.putExtra("actual", true);
-        startActivity(a);
+        String aux = "http://192.168.1.8:14715/QuizWeb/servletCursos?" +
+                "opcion=3&estudiante="+this.currentUser.getId();
+        final Intent a = new Intent(this, AddEstudianteActivity.class);
+        AsyncTaskManager net = new AsyncTaskManager(aux, new AsyncTaskManager.AsyncResponse() {
+
+            @Override
+            public void processFinish(String output) {
+                JsonParser parser = new JsonParser();
+                JsonObject jsonObject = (JsonObject) parser.parse(output);
+
+                //carreraList = new ArrayList<>();
+                Estudiante estudiante = new Estudiante();
+                estudiante.setApellidos(jsonObject.get("apellidos").getAsString());
+                estudiante.setCedula(jsonObject.get("cedula").getAsString());
+                estudiante.setEdad(jsonObject.get("edad").getAsInt());
+                estudiante.setNombre(jsonObject.get("nombre").getAsString());
+                estudiante.setId(jsonObject.get("id").getAsInt());
+                finish();
+                a.putExtra("estudiante", estudiante);
+                a.putExtra("editable", true);
+                a.putExtra("actual", true);
+                startActivity(a);
+            }
+        });
+        net.execute(AsyncTaskManager.GET);
+
+
     }
     public void openMisCursos(){
-        Estudiante estudiante = db.getEstudiante(this.currentUser.getId());
-        finish();
-        Intent a = new Intent(this, CursosEstudianteActivity.class);
-        a.putExtra("estudiante", estudiante);
-        startActivity(a);
+        String aux = "http://192.168.1.8:14715/QuizWeb/servletCursos?" +
+                "opcion=3&estudiante="+this.currentUser.getId();
+        final Intent a = new Intent(this, AddEstudianteActivity.class);
+        AsyncTaskManager net = new AsyncTaskManager(aux, new AsyncTaskManager.AsyncResponse() {
+
+            @Override
+            public void processFinish(String output) {
+                JsonParser parser = new JsonParser();
+                JsonObject jsonObject = (JsonObject) parser.parse(output);
+
+                //carreraList = new ArrayList<>();
+                Estudiante estudiante = new Estudiante();
+                estudiante.setApellidos(jsonObject.get("apellidos").getAsString());
+                estudiante.setCedula(jsonObject.get("cedula").getAsString());
+                estudiante.setEdad(jsonObject.get("edad").getAsInt());
+                estudiante.setNombre(jsonObject.get("nombre").getAsString());
+                estudiante.setId(jsonObject.get("id").getAsInt());
+                finish();
+
+                a.putExtra("estudiante", estudiante);
+                startActivity(a);
+            }
+        });
+        net.execute(AsyncTaskManager.GET);
+
     }
 }
