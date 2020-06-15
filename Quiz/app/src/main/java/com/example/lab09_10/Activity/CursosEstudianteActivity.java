@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.example.lab09_10.Adapter.CursoAdapter;
 import com.example.lab09_10.Adapter.EstudianteAdapter;
+import com.example.lab09_10.Data.AsyncTaskManager;
 import com.example.lab09_10.Data.DBAdapterSQL;
 import com.example.lab09_10.Helper.RecyclerItemTouchHelper;
 import com.example.lab09_10.Model.Curso;
@@ -36,6 +37,9 @@ import android.widget.Toast;
 
 import com.example.lab09_10.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,8 +63,8 @@ public class CursosEstudianteActivity extends AppCompatActivity implements Recyc
         intentInformation();
         this.coordinatorLayout = findViewById(R.id.coordinator_layout_curso_estudiante);
         mRecyclerView = findViewById(R.id.recycler_cursoListEstudiante);
-        db = DBAdapterSQL.getInstance(this);
-        cursoList = db.cursosEstudiante(this.estudiante.getId());
+
+        cursosEstudiante(this.estudiante.getId());
         if(cursoList.size() == 0){
             textView = findViewById(R.id.noCursos);
             textView.setVisibility(View.VISIBLE);
@@ -155,5 +159,31 @@ public class CursosEstudianteActivity extends AppCompatActivity implements Recyc
         a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(a);
         super.onBackPressed();
+    }
+
+    public void cursosEstudiante(int id){
+        cursoList = new ArrayList<>();
+        AsyncTaskManager net = new AsyncTaskManager("http://192.168.1.8:14715/QuizWeb/servletCursos?opcion=2&estudiante="+id, new AsyncTaskManager.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                try {
+                    JSONArray array = new JSONArray(output);
+                    //carreraList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        Curso c = new Curso(
+                                array.getJSONObject(i).getInt("id"),
+                                array.getJSONObject(i).getString("descripcion"),
+                                array.getJSONObject(i).getInt("creditos")
+                        );
+
+                        cursoList.add(c);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        net.execute(AsyncTaskManager.GET);
     }
 }

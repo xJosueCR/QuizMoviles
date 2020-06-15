@@ -16,10 +16,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.lab09_10.Data.AsyncTaskManager;
 import com.example.lab09_10.Data.DBAdapterSQL;
 import com.example.lab09_10.Model.Estudiante;
 import com.example.lab09_10.Model.Usuario;
 import com.example.lab09_10.R;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class AddEstudianteActivity extends AppCompatActivity {
     private EditText cedula;
@@ -37,7 +40,7 @@ public class AddEstudianteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_estudiante);
-        db = DBAdapterSQL.getInstance(this);
+        //db = DBAdapterSQL.getInstance(this);
         this.cedula = findViewById(R.id.descripcion);
         this.nombre = findViewById(R.id.creditos);
         this.apellidos = findViewById(R.id.apellidosEstudiante);
@@ -132,9 +135,11 @@ public class AddEstudianteActivity extends AppCompatActivity {
             user.setUsuario(credentials);
             user.setPassword(credentials);
             user.setRol("estandar");
-            db.insertarUsuario(user);
-            estudiante.setUser(db.getCountUsuario());
-            db.insertarEstudiante(estudiante);
+
+            insertarUsuarioYest(user,estudiante);
+            //estudiante.setUser(db.getCountUsuario());
+            //insertarEstudiante(estudiante);
+
             listarEstudiantes();
         }
 
@@ -152,7 +157,7 @@ public class AddEstudianteActivity extends AppCompatActivity {
             this.estudiante.setNombre(this.nombre.getText().toString());
             this.estudiante.setApellidos(this.apellidos.getText().toString());
             this.estudiante.setEdad(Integer.parseInt(this.edad.getText().toString()));
-            db.updateEstudiante(this.estudiante);
+            updateEstudiante(this.estudiante);
             if (admin) {
                 showProgress(true);
                 finish();
@@ -234,4 +239,28 @@ public class AddEstudianteActivity extends AppCompatActivity {
             //mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+
+    private void insertarUsuarioYest(Usuario user,Estudiante estudiante){
+        JsonObject jsonObject = new JsonObject();
+
+        JsonParser parser = new JsonParser();
+        jsonObject.add("cedula",parser.parse(estudiante.getCedula()));
+        jsonObject.add("nombre",parser.parse(estudiante.getNombre()));
+        jsonObject.add("apellidos",parser.parse(estudiante.getApellidos()));
+        jsonObject.add("edad",parser.parse(String.valueOf(estudiante.getEdad())));
+
+        String url = "http://192.168.1.8:14715/QuizWeb/servletEstudiantes?" +
+                "estudiante="+jsonObject.getAsString();
+        AsyncTaskManager net = new AsyncTaskManager(url, new AsyncTaskManager.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+
+            }
+        });
+        net.execute(AsyncTaskManager.POST);
+    }
+    private void insertarEstudiante(Estudiante estudiante){
+
+    }
+    private void updateEstudiante(Estudiante estudiante){}
 }

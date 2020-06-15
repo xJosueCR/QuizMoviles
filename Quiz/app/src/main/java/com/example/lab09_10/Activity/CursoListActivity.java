@@ -182,7 +182,7 @@ public class CursoListActivity extends AppCompatActivity implements RecyclerItem
 
     public void listCurso(){
         cursoList = new ArrayList<>();
-        AsyncTaskManager net = new AsyncTaskManager("http://192.168.1.8:14715/QuizWeb/servletCursos", new AsyncTaskManager.AsyncResponse() {
+        AsyncTaskManager net = new AsyncTaskManager("http://192.168.1.8:14715/QuizWeb/servletCursos?opcion=1", new AsyncTaskManager.AsyncResponse() {
             @Override
             public void processFinish(String output) {
                 try {

@@ -60,7 +60,7 @@ public class AddCursoActivity extends AppCompatActivity {
         if(validateForm()){
             this.curso.setDescripcion(this.descripcion.getText().toString());
             this.curso.setCreditos(Integer.parseInt(this.creditos.getText().toString()));
-            db.updateCurso(this.curso);
+            //db.updateCurso(this.curso);
             //db.close();
             listarCursos();
         }
@@ -70,8 +70,8 @@ public class AddCursoActivity extends AppCompatActivity {
             Curso curso  = new Curso();
             curso.setDescripcion(this.descripcion.getText().toString());
             curso.setCreditos(Integer.parseInt(this.creditos.getText().toString()));
-            db.insertarCurso(curso);
-            db.close();
+            //db.insertarCurso(curso);
+            //db.close();
             listarCursos();
         }
     }

@@ -61,7 +61,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         drawer.openDrawer(GravityCompat.START);
         this.intentInformation();
         this.userPrivileges();
-        
+
     }
 
     @Override

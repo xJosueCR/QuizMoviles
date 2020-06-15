@@ -13,12 +13,17 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.lab09_10.Data.AsyncTaskManager;
 import com.example.lab09_10.Data.DBAdapterSQL;
 import com.example.lab09_10.Model.Curso;
 import com.example.lab09_10.Model.Estudiante;
 import com.example.lab09_10.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,22 +43,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         linearLayout = findViewById(R.id.linear_layout);
         intentInformation();
-        db = DBAdapterSQL.getInstance(this);
+      ;
         this.cursosMatriculados = new ArrayList<>();
-        cursosDisponibles = db.listCurso();
-        cursoList = db.cursosEstudiante(this.estudiante.getId());
-        for(int i =0; i<cursosDisponibles.size(); i++){
-            checkBox = new CheckBox(this);
-            checkBox.setId(cursosDisponibles.get(i).getId());
-            checkBox.setText(cursosDisponibles.get(i).getDescripcion());
-            checkBox.setTextSize(18);
-            linearLayout.addView(checkBox);
-            checkBoxList.add(checkBox);
-            if(checkCursos(cursosDisponibles.get(i).getId())){
-                checkBox.setChecked(true);
-            }
-            //checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
-        }
+        prepareListas();
+
         matricular = findViewById(R.id.matricular_cursos);
         matricular.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,13 +79,10 @@ public class MainActivity extends AppCompatActivity {
                 cursosMatriculados.add(check.getId());
             }
         }
-        db.eliminarCursosEstudiante(this.estudiante.getId());
-        if(db.matricularCursos(cursosMatriculados, this.estudiante.getId())){
-            Toast.makeText(getApplicationContext(), "Cursos guardados con éxito ", Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(getApplicationContext(), "Se ha producido un error. Intentelo nuevamente", Toast.LENGTH_LONG).show();
-        }
-        goMisCursos();
+
+        matricular(cursosMatriculados, this.estudiante.getId());
+
+
 
     }
     public void intentInformation(){
@@ -108,4 +98,87 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void prepareListas(){
+        listCurso(this.estudiante.getId());
+    }
+
+    public void preparedView(){
+        for(int i =0; i<cursosDisponibles.size(); i++){
+            checkBox = new CheckBox(this);
+            checkBox.setId(cursosDisponibles.get(i).getId());
+            checkBox.setText(cursosDisponibles.get(i).getDescripcion());
+            checkBox.setTextSize(18);
+            linearLayout.addView(checkBox);
+            checkBoxList.add(checkBox);
+            if(checkCursos(cursosDisponibles.get(i).getId())){
+                checkBox.setChecked(true);
+            }
+            //checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
+        }
+    }
+    public void listCurso(final int id){
+        cursosDisponibles = new ArrayList<>();
+        AsyncTaskManager net = new AsyncTaskManager("http://192.168.1.8:14715/QuizWeb/servletCursos?opcion=1", new AsyncTaskManager.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                try {
+                    JSONArray array = new JSONArray(output);
+                    //carreraList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        Curso c = new Curso(
+                                array.getJSONObject(i).getInt("id"),
+                                array.getJSONObject(i).getString("descripcion"),
+                                array.getJSONObject(i).getInt("creditos")
+                        );
+
+                        cursoList.add(c);
+                    }
+                    cursosEstudiante(id);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        net.execute(AsyncTaskManager.GET);
+    }
+    public void cursosEstudiante(int id){
+        cursoList = new ArrayList<>();
+        AsyncTaskManager net = new AsyncTaskManager("http://192.168.1.8:14715/QuizWeb/servletCursos?opcion=2&estudiante="+id, new AsyncTaskManager.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                try {
+                    JSONArray array = new JSONArray(output);
+                    //carreraList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        Curso c = new Curso(
+                                array.getJSONObject(i).getInt("id"),
+                                array.getJSONObject(i).getString("descripcion"),
+                                array.getJSONObject(i).getInt("creditos")
+                        );
+
+                        cursoList.add(c);
+                    }
+                    preparedView();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        net.execute(AsyncTaskManager.GET);
+    }
+
+    public void matricular(List<Integer> L, int id ){
+        int[] vector = new int[L.size()];
+        for ( int i = 0;i<L.size();i++) {
+            vector[i]=L.get(i);
+        }
+        String array = Arrays.toString(vector);
+        AsyncTaskManager net = new AsyncTaskManager("http://192.168.1.8:14715/QuizWeb/servletCursos?values="+array+"&estudiante="+id, new AsyncTaskManager.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                goMisCursos();
+            }
+        });
+        net.execute(AsyncTaskManager.GET);
+    }
 }
