@@ -45,6 +45,14 @@ public class Control {
             return null;
         }
     }
+    public Estudiante getEstudiante(int user) {
+        try {
+            return this.model.getEstudiante(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 
     public int eliminarProfesor(int id) {
         try {

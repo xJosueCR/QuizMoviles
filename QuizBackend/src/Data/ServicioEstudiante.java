@@ -26,6 +26,7 @@ public class ServicioEstudiante extends Servicio {
     private static final String LISTAR_ESTUDIANTES = "{?=call PA_listarEstudiantes()}";
     private static final String ELIMINAR_ESTUDIANTE = "{call PA_eliminarEstudiante(?)}";
     private static final String MODIFICAR_ESTUDIANTE = "{call PA_actualizarEst(?,?,?,?,?)}";
+    private static final String GET_ESTUDIANTE = "{?=call PA_estudiante(?)}";
     private static ServicioEstudiante uniqueInstance;
 
     public static ServicioEstudiante instance() {
@@ -64,9 +65,9 @@ public class ServicioEstudiante extends Servicio {
             pstmt.setInt(4, estudiante.getEdad());
             pstmt.setString(5, estudiante.getNombre().toLowerCase());
             pstmt.setString(6, estudiante.getNombre().toLowerCase());
-             pstmt.setString(7, "estandar");
+            pstmt.setString(7, "estandar");
             //int array[] = getCursosID(estudiante);
-           // int array[] ={1,2,3};
+            // int array[] ={1,2,3};
             //ArrayDescriptor des = ArrayDescriptor.createDescriptor("PRACTICACLASE.ARRAY_TABLE", conexion);
             //ARRAY array_to_pass = new ARRAY(des, conexion, array);
             //pstmt.setArray(5, array_to_pass);
@@ -185,7 +186,7 @@ public class ServicioEstudiante extends Servicio {
             pstmt.setString(3, estudiante.getNombre());
             pstmt.setString(4, estudiante.getApellidos());
             pstmt.setInt(5, estudiante.getEdad());
-           /* int array[] = getCursosID(estudiante);
+            /* int array[] = getCursosID(estudiante);
             ArrayDescriptor des = ArrayDescriptor.createDescriptor("PRACTICACLASE.ARRAY_TABLE", conexion);
             ARRAY array_to_pass = new ARRAY(des, conexion, array);
             pstmt.setArray(6, array_to_pass);*/
@@ -208,5 +209,49 @@ public class ServicioEstudiante extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
+    }
+
+    public Estudiante getEstudiante(int user) throws GlobalException, NoDataException { // No vincula aun el arreglo de cursos correctamente
+        try {
+            conectar();
+        } catch (ClassNotFoundException ex) {
+            throw new GlobalException("No se ha localizado el Driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+
+        ResultSet rs = null;
+        Estudiante estudiante = null;
+        CallableStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareCall(LISTAR_ESTUDIANTES);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+            if (rs.next()) {
+                estudiante = new Estudiante(rs.getInt("id"),
+                        rs.getString("cedula"), rs.getString("nombre"),
+                        rs.getString("apellidos"),
+                        rs.getInt("edad"), null);
+                return estudiante;
+            }
+
+        } catch (SQLException e) {
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        return null;
     }
 }

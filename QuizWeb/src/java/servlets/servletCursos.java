@@ -55,7 +55,15 @@ public class servletCursos extends HttpServlet {
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().println(json2);
                 break;
-            default: break;
+            case 3:
+                int estudiante2 = Integer.parseInt(request.getParameter("estudiante"));
+                String json3 = new Gson().toJson(dm.getEstudiante(estudiante2));
+                response.setContentType("aplication/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().println(json3);
+                break;
+            default:
+                break;
 
         }
 
