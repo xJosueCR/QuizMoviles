@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                                 array.getJSONObject(i).getInt("creditos")
                         );
 
-                        cursoList.add(c);
+                        cursosDisponibles.add(c);
                     }
                     cursosEstudiante(id);
                 } catch (JSONException e) {
@@ -147,16 +147,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void processFinish(String output) {
                 try {
-                    JSONArray array = new JSONArray(output);
-                    //carreraList = new ArrayList<>();
-                    for (int i = 0; i < array.length(); i++) {
-                        Curso c = new Curso(
-                                array.getJSONObject(i).getInt("id"),
-                                array.getJSONObject(i).getString("descripcion"),
-                                array.getJSONObject(i).getInt("creditos")
-                        );
+                    if(!output.equals("null")) {
+                        JSONArray array = new JSONArray(output);
+                        //carreraList = new ArrayList<>();
+                        for (int i = 0; i < array.length(); i++) {
+                            Curso c = new Curso(
+                                    array.getJSONObject(i).getInt("id"),
+                                    array.getJSONObject(i).getString("descripcion"),
+                                    array.getJSONObject(i).getInt("creditos")
+                            );
 
-                        cursoList.add(c);
+                            cursoList.add(c);
+                        }
                     }
                     preparedView();
                 } catch (JSONException e) {
@@ -168,17 +170,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void matricular(List<Integer> L, int id ){
-        int[] vector = new int[L.size()];
+        /*int[] vector = new int[L.size()];
         for ( int i = 0;i<L.size();i++) {
             vector[i]=L.get(i);
+        }*/
+        String vector = "[";
+        for ( int i = 0;i<L.size();i++) {
+            vector+=L.get(i);
+            if(i+1< L.size()){
+                vector += ",";
+            }
+
         }
-        String array = Arrays.toString(vector);
-        AsyncTaskManager net = new AsyncTaskManager("http://192.168.1.8:14715/QuizWeb/servletCursos?values="+array+"&estudiante="+id, new AsyncTaskManager.AsyncResponse() {
+        vector += "]";
+        //String array = Arrays.toString(vector);
+        String URL = "http://192.168.1.8:14715/QuizWeb/servletCursos?estudiante="+id+"&values="+vector;
+        AsyncTaskManager net = new AsyncTaskManager(URL, new AsyncTaskManager.AsyncResponse() {
             @Override
             public void processFinish(String output) {
                 goMisCursos();
             }
         });
-        net.execute(AsyncTaskManager.GET);
+        net.execute(AsyncTaskManager.POST);
     }
 }

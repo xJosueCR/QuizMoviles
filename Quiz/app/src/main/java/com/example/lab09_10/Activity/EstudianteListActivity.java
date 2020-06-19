@@ -200,7 +200,7 @@ public class EstudianteListActivity extends AppCompatActivity implements Recycle
                                 array.getJSONObject(i).getString("apellidos"),
                                 array.getJSONObject(i).getInt("edad"),
                                 null,
-                                array.getJSONObject(i).getInt("user")
+                                0
                         );
 
                         estudianteList.add(c);

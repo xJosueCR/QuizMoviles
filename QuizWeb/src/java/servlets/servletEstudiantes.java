@@ -35,7 +35,7 @@ public class servletEstudiantes extends HttpServlet {
             throws ServletException, IOException {
         Model dm1 = Model.instance();
         Control dm = new Control(dm1);
-        int opcion = Integer.parseInt(request.getParameter("opcion"));
+       
         String json = new Gson().toJson(dm.listarProfesores());
         response.setContentType("aplication/json");
         response.setCharacterEncoding("UTF-8");
@@ -52,9 +52,9 @@ public class servletEstudiantes extends HttpServlet {
         if (estudiante != null) {
             Estudiante p = new Gson().fromJson(estudiante, Estudiante.class);
             dm.insertarProfesor(p);
-            String json = new Gson().toJson("insertado");
-            response.getWriter().println(json);
-            dm.insertarProfesor(p);
+//            String json = new Gson().toJson("insertado");
+//            response.getWriter().println(json);
+//            dm.insertarProfesor(p);
         } else {
             String json = new Gson().toJson("no insertado");
             response.getWriter().println(json);

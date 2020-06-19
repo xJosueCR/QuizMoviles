@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private String user;
     private String password;
+    private Usuario loggeado;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                     JsonObject jsonObject = (JsonObject) parser.parse(output);
 
                     //carreraList = new ArrayList<>();
-                    Usuario c = new Usuario(
+                    loggeado = new Usuario(
                             jsonObject.get("id").getAsInt(),
                             jsonObject.get("username").getAsString(),
                             jsonObject.get("password").getAsString(),
@@ -129,9 +130,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     protected Usuario getUsuario(String mUser, String mPassword){
-        Usuario aux = null;
-
-        return aux;
+        return loggeado;
     }
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {

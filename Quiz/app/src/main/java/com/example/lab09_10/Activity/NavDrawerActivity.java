@@ -214,7 +214,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     public void openMisCursos(){
         String aux = "http://192.168.1.8:14715/QuizWeb/servletCursos?" +
                 "opcion=3&estudiante="+this.currentUser.getId();
-        final Intent a = new Intent(this, AddEstudianteActivity.class);
+        final Intent a = new Intent(this, CursosEstudianteActivity.class);
         AsyncTaskManager net = new AsyncTaskManager(aux, new AsyncTaskManager.AsyncResponse() {
 
             @Override

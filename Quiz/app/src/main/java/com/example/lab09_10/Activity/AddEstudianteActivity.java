@@ -24,6 +24,9 @@ import com.example.lab09_10.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class AddEstudianteActivity extends AppCompatActivity {
     private EditText cedula;
     private EditText nombre;
@@ -243,24 +246,50 @@ public class AddEstudianteActivity extends AppCompatActivity {
     private void insertarUsuarioYest(Usuario user,Estudiante estudiante){
         JsonObject jsonObject = new JsonObject();
 
-        JsonParser parser = new JsonParser();
-        jsonObject.add("cedula",parser.parse(estudiante.getCedula()));
-        jsonObject.add("nombre",parser.parse(estudiante.getNombre()));
-        jsonObject.add("apellidos",parser.parse(estudiante.getApellidos()));
-        jsonObject.add("edad",parser.parse(String.valueOf(estudiante.getEdad())));
+        JSONObject carreer = new JSONObject();
+        try {
+            carreer.put("cedula",estudiante.getCedula());
+            carreer.put("nombre",estudiante.getNombre());
+            carreer.put("apellidos",estudiante.getApellidos());
+            carreer.put("edad",String.valueOf(estudiante.getEdad()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         String url = "http://192.168.1.8:14715/QuizWeb/servletEstudiantes?" +
-                "estudiante="+jsonObject.getAsString();
+                "estudiante="+carreer.toString();
         AsyncTaskManager net = new AsyncTaskManager(url, new AsyncTaskManager.AsyncResponse() {
             @Override
             public void processFinish(String output) {
-
+                System.out.println("OOOOUUUttPUTTTTT:   "+output);
             }
         });
         net.execute(AsyncTaskManager.POST);
     }
-    private void insertarEstudiante(Estudiante estudiante){
+
+    private void updateEstudiante(Estudiante estudiante){
+        JsonObject jsonObject = new JsonObject();
+
+        JSONObject carreer = new JSONObject();
+        try {
+            carreer.put("id",estudiante.getId());
+            carreer.put("cedula",estudiante.getCedula());
+            carreer.put("nombre",estudiante.getNombre());
+            carreer.put("apellidos",estudiante.getApellidos());
+            carreer.put("edad",String.valueOf(estudiante.getEdad()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String url = "http://192.168.1.8:14715/QuizWeb/servletEstudiantes?" +
+                "estudiante="+carreer.toString();
+        AsyncTaskManager net = new AsyncTaskManager(url, new AsyncTaskManager.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                System.out.println("OOOOUUUttPUTTTTT:   "+output);
+            }
+        });
+        net.execute(AsyncTaskManager.PUT);
 
     }
-    private void updateEstudiante(Estudiante estudiante){}
 }

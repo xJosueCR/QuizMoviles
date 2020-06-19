@@ -65,10 +65,7 @@ public class CursosEstudianteActivity extends AppCompatActivity implements Recyc
         mRecyclerView = findViewById(R.id.recycler_cursoListEstudiante);
 
         cursosEstudiante(this.estudiante.getId());
-        if(cursoList.size() == 0){
-            textView = findViewById(R.id.noCursos);
-            textView.setVisibility(View.VISIBLE);
-        }
+
         mAdapter = new CursoAdapter(cursoList, this);
         whiteNotificationBar(mRecyclerView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -177,6 +174,10 @@ public class CursosEstudianteActivity extends AppCompatActivity implements Recyc
                         );
 
                         cursoList.add(c);
+                    }
+                    if(cursoList.size() == 0){
+                        textView = findViewById(R.id.noCursos);
+                        textView.setVisibility(View.VISIBLE);
                     }
                     mAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
