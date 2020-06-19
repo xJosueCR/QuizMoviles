@@ -50,13 +50,13 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.MyViewHolder
         if(x) {
             x = random.nextBoolean();
             if(x){
-                holder.imageView.setImageResource(R.drawable.database);
+                //holder.imageView.setImageResource(R.drawable.database);
             }else{
-                holder.imageView.setImageResource(R.drawable.server);
+                //holder.imageView.setImageResource(R.drawable.server);
             }
         }
         else{
-            holder.imageView.setImageResource(R.drawable.typing);
+            //holder.imageView.setImageResource(R.drawable.typing);
         }
     }
 
@@ -155,7 +155,7 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView titulo1, titulo2, description;
-        public ImageView imageView;
+       // public ImageView imageView;
         //two layers
         public RelativeLayout viewForeground, viewBackgroundDelete, viewBackgroundEdit;
 
@@ -165,7 +165,7 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.MyViewHolder
             titulo1 = view.findViewById(R.id.titleFirstLbl);
             titulo2 = view.findViewById(R.id.titleSecLbl);
             description = view.findViewById(R.id.descriptionLbl);
-            imageView = view.findViewById(R.id.item_image_view);
+            //imageView = view.findViewById(R.id.item_image_view);
             viewBackgroundDelete = view.findViewById(R.id.view_background_delete);
             viewBackgroundEdit = view.findViewById(R.id.view_background_edit);
             viewForeground = view.findViewById(R.id.view_foreground);

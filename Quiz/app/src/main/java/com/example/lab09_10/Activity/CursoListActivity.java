@@ -68,13 +68,13 @@ public class CursoListActivity extends AppCompatActivity implements RecyclerItem
         mRecyclerView.setAdapter(mAdapter);
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //FloatingActionButton fab = findViewById(R.id.fab);
+/*        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addCurso();
             }
-        });
+        });*/
         mAdapter.notifyDataSetChanged();
     }
 

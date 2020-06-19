@@ -50,10 +50,10 @@ public class EstudianteAdapter extends RecyclerView.Adapter<EstudianteAdapter.My
         Random random = new Random();
         boolean x = random.nextBoolean();
         if(x) {
-            holder.imageView.setImageResource(R.drawable.student);
+            //holder.imageView.setImageResource(R.drawable.student);
         }
         else{
-            holder.imageView.setImageResource(R.drawable.teacher);
+            //holder.imageView.setImageResource(R.drawable.teacher);
         }
     }
     @Override
@@ -151,7 +151,7 @@ public class EstudianteAdapter extends RecyclerView.Adapter<EstudianteAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView titulo1, titulo2, description;
-        public ImageView imageView;
+       // public ImageView imageView;
         //two layers
         public RelativeLayout viewForeground, viewBackgroundDelete, viewBackgroundEdit;
 
@@ -161,7 +161,7 @@ public class EstudianteAdapter extends RecyclerView.Adapter<EstudianteAdapter.My
             titulo1 = view.findViewById(R.id.titleFirstLbl);
             titulo2 = view.findViewById(R.id.titleSecLbl);
             description = view.findViewById(R.id.descriptionLbl);
-            imageView = view.findViewById(R.id.item_image_view);
+            //imageView = view.findViewById(R.id.item_image_view);
             viewBackgroundDelete = view.findViewById(R.id.view_background_delete);
             viewBackgroundEdit = view.findViewById(R.id.view_background_edit);
             viewForeground = view.findViewById(R.id.view_foreground);
