@@ -1,12 +1,8 @@
-package com.example.lab09_10.Activity;
+package com.example.quiz.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,37 +11,21 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.lab09_10.Data.AsyncTaskManager;
-import com.example.lab09_10.Data.DBAdapterSQL;
-import com.example.lab09_10.Model.Estudiante;
-import com.example.lab09_10.Model.Usuario;
-import com.example.lab09_10.R;
+import com.example.quiz.Data.AsyncTaskManager;
+import com.example.quiz.Model.Usuario;
+import com.example.quiz.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 
 public class LoginActivity extends AppCompatActivity {

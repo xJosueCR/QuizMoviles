@@ -1,4 +1,4 @@
-package com.example.lab09_10.Model;
+package com.example.quiz.Model;
 
 import java.io.Serializable;
 

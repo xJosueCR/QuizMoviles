@@ -1,29 +1,23 @@
-package com.example.lab09_10.Activity;
+package com.example.quiz.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.example.lab09_10.Data.AsyncTaskManager;
-import com.example.lab09_10.Data.DBAdapterSQL;
-import com.example.lab09_10.Model.Curso;
-import com.example.lab09_10.Model.Estudiante;
-import com.example.lab09_10.R;
+import com.example.quiz.Data.AsyncTaskManager;
+import com.example.quiz.Model.Curso;
+import com.example.quiz.Model.Estudiante;
+import com.example.quiz.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {

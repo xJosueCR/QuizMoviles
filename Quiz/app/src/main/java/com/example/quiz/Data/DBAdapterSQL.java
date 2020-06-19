@@ -1,19 +1,14 @@
-package com.example.lab09_10.Data;
+package com.example.quiz.Data;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
-import com.example.lab09_10.Model.Curso;
-import com.example.lab09_10.Model.Estudiante;
-import com.example.lab09_10.Model.Usuario;
+import com.example.quiz.Model.Curso;
+import com.example.quiz.Model.Estudiante;
+import com.example.quiz.Model.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;

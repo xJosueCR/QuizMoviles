@@ -1,19 +1,16 @@
-package com.example.lab09_10.Activity;
+package com.example.quiz.Activity;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.example.lab09_10.Adapter.EstudianteAdapter;
-import com.example.lab09_10.Data.AsyncTaskManager;
-import com.example.lab09_10.Data.DBAdapterSQL;
-import com.example.lab09_10.Helper.RecyclerItemTouchHelper;
-import com.example.lab09_10.Model.Curso;
-import com.example.lab09_10.Model.Estudiante;
+import com.example.quiz.Adapter.EstudianteAdapter;
+import com.example.quiz.Data.AsyncTaskManager;
+import com.example.quiz.Helper.RecyclerItemTouchHelper;
+import com.example.quiz.Model.Estudiante;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -31,7 +28,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.lab09_10.R;
+import com.example.quiz.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

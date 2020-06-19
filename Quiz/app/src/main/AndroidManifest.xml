@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.lab09_10">
+    package="com.example.quiz">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
@@ -10,27 +10,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activity.CursosEstudianteActivity"
+            android:name="com.example.quiz.Activity.CursosEstudianteActivity"
             android:label="@string/title_activity_cursos_estudiante"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Activity.AddCursoActivity" />
+        <activity android:name="com.example.quiz.Activity.AddCursoActivity" />
         <activity
-            android:name=".Activity.CursoListActivity"
+            android:name="com.example.quiz.Activity.CursoListActivity"
             android:label="@string/title_activity_add_curso"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.AddEstudianteActivity"
+            android:name="com.example.quiz.Activity.AddEstudianteActivity"
             android:label="@string/title_activity_add_estudiante" />
         <activity
-            android:name=".Activity.EstudianteListActivity"
+            android:name="com.example.quiz.Activity.EstudianteListActivity"
             android:label="@string/title_activity_estudiante_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.NavDrawerActivity"
+            android:name="com.example.quiz.Activity.NavDrawerActivity"
             android:label="@string/title_activity_nav_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.LoginActivity"
+            android:name="com.example.quiz.Activity.LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.MainActivity"
+        <activity android:name="com.example.quiz.Activity.MainActivity"
             android:label="@string/matricula"/>
     </application>
 

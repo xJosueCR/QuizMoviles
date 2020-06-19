@@ -1,4 +1,4 @@
-package com.example.lab09_10;
+package com.example.quiz;
 
 import android.content.Context;
 

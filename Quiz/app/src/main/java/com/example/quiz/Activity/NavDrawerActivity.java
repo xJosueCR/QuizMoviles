@@ -1,4 +1,4 @@
-package com.example.lab09_10.Activity;
+package com.example.quiz.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,11 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
-import com.example.lab09_10.Data.AsyncTaskManager;
-import com.example.lab09_10.Data.DBAdapterSQL;
-import com.example.lab09_10.Model.Estudiante;
-import com.example.lab09_10.Model.Usuario;
-import com.example.lab09_10.R;
+import com.example.quiz.Data.AsyncTaskManager;
+import com.example.quiz.Model.Estudiante;
+import com.example.quiz.Model.Usuario;
+import com.example.quiz.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -23,10 +22,7 @@ import com.google.gson.JsonParser;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

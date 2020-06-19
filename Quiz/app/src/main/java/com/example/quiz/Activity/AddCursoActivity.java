@@ -1,4 +1,4 @@
-package com.example.lab09_10.Activity;
+package com.example.quiz.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,10 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.lab09_10.Data.DBAdapterSQL;
-import com.example.lab09_10.Model.Curso;
-import com.example.lab09_10.Model.Estudiante;
-import com.example.lab09_10.R;
+import com.example.quiz.Model.Curso;
+import com.example.quiz.R;
 
 public class AddCursoActivity extends AppCompatActivity {
 

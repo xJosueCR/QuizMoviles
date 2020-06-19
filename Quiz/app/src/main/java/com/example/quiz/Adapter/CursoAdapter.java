@@ -1,19 +1,18 @@
-package com.example.lab09_10.Adapter;
+package com.example.quiz.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lab09_10.Model.Curso;
-import com.example.lab09_10.R;
+import com.example.quiz.Model.Curso;
+import com.example.quiz.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.example.lab09_10.Helper;
+package com.example.quiz.Helper;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
@@ -11,8 +11,8 @@ import android.view.View;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lab09_10.Adapter.CursoAdapter;
-import com.example.lab09_10.Adapter.EstudianteAdapter;
+import com.example.quiz.Adapter.CursoAdapter;
+import com.example.quiz.Adapter.EstudianteAdapter;
 
 public class RecyclerItemTouchHelper  extends ItemTouchHelper.SimpleCallback{
     private RecyclerItemTouchHelperListener listener;
