@@ -125,6 +125,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                 holder.setEnabled(true);
                 holder = menu.findItem(R.id.nav_curso);
                 holder.setEnabled(true);
+                holder.setVisible(false);
                 holder = menu.findItem(R.id.nav_persona);
                 holder.setVisible(false);
                 holder = menu.findItem(R.id.nav_mis_cursos);
@@ -140,8 +141,8 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                 holder.setVisible(false);
                 holder.setEnabled(false);
                 holder = menu.findItem(R.id.nav_persona);
-                holder.setVisible(true);
-                holder.setEnabled(true);
+                holder.setVisible(false);
+                holder.setEnabled(false);
                 holder = menu.findItem(R.id.nav_mis_cursos);
                 holder.setVisible(true);
                 holder.setEnabled(true);
